@@ -7,6 +7,8 @@ import NotFoundPage from './pages/404.jsx';
 import NuevoProductoPage from './pages/NuevoProducto.jsx';
 import NuevoUsuarioPage from './pages/NuevoUsuario.jsx';
 import EditarProductoPage from './pages/EditarProducto.jsx';
+import LogInPage from './pages/LogIn.jsx';
+import SignUpPage from './pages/SignUp.jsx';
 
 export default function App() {
   return (
@@ -18,6 +20,8 @@ export default function App() {
         <Route path="productos/:id/editar" element={<EditarProductoPage />} />
         <Route path="usuarios" element={<UsuariosPage />} />
         <Route path="usuarios/nuevo" element={<NuevoUsuarioPage />} />
+        <Route path="login" element={<LogInPage />} />
+        <Route path="signup" element={<SignUpPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
