@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getProductById, updateProduct } from '@/services/useProductos';
-import { getCategorias } from '../../services/useCategorias';
+import { getCategories } from '../../services/useCategorias';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function EditarProductoForm() {
   const navigate = useNavigate();
@@ -22,7 +24,7 @@ export default function EditarProductoForm() {
       setPrecio(product.price);
       setStock(product.actualStock);
       setCategoria(product.categoryId);
-      setCategorias(await getCategorias());
+      setCategorias(await getCategories());
     };
     fetchProduct();
   }, [id]);
@@ -34,11 +36,15 @@ export default function EditarProductoForm() {
       return;
     }
     updateProduct(id, nombre, descripcion, precio, stock, categoria)
-      .then(() => {
-        navigate('/productos');
+      .then((response) => {
+        toast.success('Actualización exitosa');
+        setTimeout(() => {
+          navigate('/productos');
+        }, 3000);
       })
       .catch((err) => {
         console.error('Error al crear el producto:', err);
+        toast.error('Error al actualizar el producto, intente nuevamente');
         setError(true);
       });
   };
@@ -154,6 +160,7 @@ export default function EditarProductoForm() {
           Cancelar
         </button>
       </div>
+      <ToastContainer />
     </form>
   );
 }

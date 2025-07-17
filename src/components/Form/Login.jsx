@@ -1,20 +1,26 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { logIn } from '@/services/useAuth';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function LogInForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
     logIn(email, password)
       .then((data) => {
-        console.log('Login successful:', data);
-        // Handle successful login (e.g., redirect, show message)
+        toast.success('Inicio de sesión exitoso, redirigiendo...');
+        setTimeout(() => {
+          navigate('/');
+        }, 3000);
       })
       .catch((error) => {
-        console.error('Login failed:', error);
-        // Handle login error (e.g., show error message)
+        toast.error('Datos incorrectos, intente nuevamente');
+        console.error('Login error:', error);
       });
   };
 
@@ -61,6 +67,7 @@ export default function LogInForm() {
           Crea una
         </a>
       </p>
+      <ToastContainer />
     </form>
   );
 }

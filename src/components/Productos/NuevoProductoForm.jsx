@@ -1,7 +1,9 @@
 import { use, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createProduct } from '@/services/useProductos';
-import { getCategorias } from '@/services/useCategorias';
+import { getCategories } from '@/services/useCategorias';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function NuevoProductoForm() {
   const navigate = useNavigate();
@@ -23,7 +25,10 @@ export default function NuevoProductoForm() {
 
     createProduct(nombre, descripcion, precio, stock, categoria)
       .then(() => {
-        navigate('/productos');
+        toast.success('Producto creado correctamente');
+        setTimeout(() => {
+          navigate('/productos');
+        }, 3000);
       })
       .catch((err) => {
         console.error('Error al crear el producto:', err);
@@ -33,7 +38,7 @@ export default function NuevoProductoForm() {
 
   useState(() => {
     const fetchCategorias = async () => {
-      setCategorias(await getCategorias());
+      setCategorias(await getCategories());
     };
     fetchCategorias();
   }, []);
@@ -149,6 +154,7 @@ export default function NuevoProductoForm() {
           Cancelar
         </button>
       </div>
+      <ToastContainer />
     </form>
   );
 }

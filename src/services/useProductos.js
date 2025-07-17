@@ -113,3 +113,19 @@ export const updateProduct = async (
     throw error;
   }
 };
+
+export const searchProductsFiltered = async (name, category) => {
+  try {
+    const response = await fetch(
+      `${API_URL}/productos/buscar/?name=${name}&category=${category}`
+    );
+    if (!response.ok) {
+      return [];
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error searching products:', error);
+    throw error;
+  }
+};

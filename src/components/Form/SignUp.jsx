@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { signUp } from '@/services/useAuth';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 export default function SignUpForm() {
   const [data, setData] = useState({
@@ -7,18 +10,20 @@ export default function SignUpForm() {
     email: '',
     password: '',
   });
+  const navigate = useNavigate();
 
   const handleSignUp = (e) => {
     e.preventDefault();
     const { name, email, password } = data;
     signUp(name, email, password)
       .then((response) => {
-        console.log('Sign up successful:', response);
-        alert('Registro exitoso. Ahora puedes iniciar sesión.');
-        // Redirect to login page or handle post-signup logic
-        window.location.href = '/login';
+        toast.success('Registro exitoso, redirigiendo...');
+        setTimeout(() => {
+          navigate('/login');
+        }, 3000);
       })
       .catch((error) => {
+        toast.error('Datos incorrectos, intente nuevamente');
         console.error('Sign up failed:', error);
         // Handle sign up error (e.g., show error message)
       });
@@ -74,6 +79,7 @@ export default function SignUpForm() {
           Registrar
         </button>
       </div>
+      <ToastContainer />
     </form>
   );
 }
