@@ -1,7 +1,10 @@
 const API_URL = import.meta.env.VITE_API_URL;
 
 export async function getCategories() {
-  const response = await fetch(`${API_URL}/categorias`);
+  const response = await fetch(`${API_URL}/categorias`, {
+    method: 'GET',
+    credentials: 'include',
+  });
   return response.json();
 }
 
@@ -12,12 +15,16 @@ export async function createCategoria(nombre) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ nombre }),
+    credentials: 'include',
   });
   return response.json();
 }
 
 export async function getCategoriaById(id) {
-  const response = await fetch(`${API_URL}/categorias/${id}`);
+  const response = await fetch(`${API_URL}/categorias/${id}`, {
+    method: 'GET',
+    credentials: 'include', // Include cookies for authentication
+  });
   if (!response.ok) {
     throw new Error('Error al obtener la categoría');
   }
@@ -28,6 +35,7 @@ export async function getCategoriaById(id) {
 export async function deleteCategoria(id) {
   const response = await fetch(`${API_URL}/categorias/${id}`, {
     method: 'DELETE',
+    credentials: 'include',
   });
   return response.json();
 }

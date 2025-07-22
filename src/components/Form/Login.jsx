@@ -3,20 +3,24 @@ import { useNavigate } from 'react-router-dom';
 import { logIn } from '@/services/useAuth';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useAuth } from '@/context/authContext';
 
 export default function LogInForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const { setUser } = useAuth();
 
   const handleLogin = (e) => {
     e.preventDefault();
     logIn(email, password)
       .then((data) => {
+        localStorage.setItem('hasSession', 'true');
         toast.success('Inicio de sesión exitoso, redirigiendo...');
+        setUser(data);
         setTimeout(() => {
           navigate('/');
-        }, 3000);
+        }, 1500);
       })
       .catch((error) => {
         toast.error('Datos incorrectos, intente nuevamente');

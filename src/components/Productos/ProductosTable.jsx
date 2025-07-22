@@ -11,7 +11,6 @@ import {
 import { getCategories } from '@/services/useCategorias';
 
 const COLUMNS = [
-  { key: 'id', label: 'Código' },
   { key: 'name', label: 'Nombre' },
   { key: 'description', label: 'Descripción' },
   { key: 'price', label: 'Precio' },

@@ -1,7 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import UsuariosTable from '../components/Usuarios/UsuariosTable';
+import { useAuth } from '@/context/AuthContext';
+import Unauthorized from '@/components/Unauthorized/Unauthorized';
 
 export default function UsuariosPage() {
+  const { user } = useAuth();
+  if (!user) return <Unauthorized />;
   const navigate = useNavigate();
   return (
     <div className="flex items-center flex-col justify-center mt-16">

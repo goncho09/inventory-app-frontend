@@ -2,7 +2,10 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export const getUsers = async () => {
   try {
-    const response = await fetch(`${API_URL}/usuarios`);
+    const response = await fetch(`${API_URL}/usuarios`, {
+      method: 'GET',
+      credentials: 'include', // Include cookies for authentication
+    });
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
@@ -18,6 +21,7 @@ export const deleteUser = async (id) => {
   try {
     const response = await fetch(`${API_URL}/usuarios/${id}`, {
       method: 'DELETE',
+      credentials: 'include', // Include cookies for authentication
     });
     if (!response.ok) {
       throw new Error('Network response was not ok');
@@ -37,6 +41,7 @@ export const createUser = async (nombre, email, password, role) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ nombre, email, password, role }),
+      credentials: 'include', // Include cookies for authentication
     });
     if (!response.ok) {
       throw new Error('Network response was not ok');

@@ -1,7 +1,16 @@
 import { getInfo } from '@/services/useInfo';
 import { useState, useEffect } from 'react';
+import { useAuth } from '@/context/authContext';
+import Unauthorized from '../Unauthorized/Unauthorized';
 
 export default function Dashboard() {
+  const { user, loading } = useAuth();
+
+  // Esperar a que termine de cargar la info del usuario
+  if (loading) return null;
+
+  if (!user) return <Unauthorized />;
+
   const [info, setInfo] = useState({
     cantidadUsuarios: 0,
     cantidadProductos: 0,
@@ -10,12 +19,11 @@ export default function Dashboard() {
 
   useEffect(() => {
     const getData = async () => {
-      const data = await getInfo();
-      console.log(data);
+      const { status, ...data } = await getInfo();
       setInfo({
-        cantidadUsuarios: data.cantidadUsuarios.count || 0,
-        cantidadProductos: data.cantidadProductos.count || 0,
-        cantidadPocosProductos: data.productosPocos.count || 0,
+        cantidadUsuarios: data.cantidadUsuarios?.count || 0,
+        cantidadProductos: data.cantidadProductos?.count || 0,
+        cantidadPocosProductos: data.productosPocos?.count || 0,
       });
     };
     getData();

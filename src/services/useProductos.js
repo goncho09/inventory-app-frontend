@@ -2,7 +2,10 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export const getProducts = async () => {
   try {
-    const response = await fetch(`${API_URL}/productos`);
+    const response = await fetch(`${API_URL}/productos`, {
+      method: 'GET',
+      credentials: 'include', // Include cookies for authentication
+    });
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
@@ -16,7 +19,10 @@ export const getProducts = async () => {
 
 export const getProductById = async (id) => {
   try {
-    const response = await fetch(`${API_URL}/productos/${id}`);
+    const response = await fetch(`${API_URL}/productos/${id}`, {
+      method: 'GET',
+      credentials: 'include', // Include cookies for authentication
+    });
     if (!response.ok) {
       throw new Error('Error al obtener el producto');
     }
@@ -48,6 +54,7 @@ export const createProduct = async (
         stock,
         categoria,
       }),
+      credentials: 'include',
     });
 
     if (!response.ok) {
@@ -66,6 +73,7 @@ export const deleteProduct = async (id) => {
   try {
     const response = await fetch(`${API_URL}/productos/${id}`, {
       method: 'DELETE',
+      credentials: 'include', // Include cookies for authentication
     });
 
     if (!response.ok) {
@@ -100,6 +108,7 @@ export const updateProduct = async (
         stock,
         categoria,
       }),
+      credentials: 'include', // Include cookies for authentication
     });
 
     if (!response.ok) {
@@ -117,7 +126,11 @@ export const updateProduct = async (
 export const searchProductsFiltered = async (name, category) => {
   try {
     const response = await fetch(
-      `${API_URL}/productos/buscar/?name=${name}&category=${category}`
+      `${API_URL}/productos/buscar/?name=${name}&category=${category}`,
+      {
+        method: 'GET',
+        credentials: 'include', // Include cookies for authentication
+      }
     );
     if (!response.ok) {
       return [];
